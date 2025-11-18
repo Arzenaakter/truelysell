@@ -587,7 +587,7 @@ const ServiceAddForm = ({ isEditMode, id }) => {
             </div>
           </div>
           {/*  */}
-          <div className="grid lg:grid-cols-3 gap-6 mb-6">
+          <div className="grid lg:grid-cols-2 gap-6 mb-6">
             {/* Duration */}
             <div>
               <label
@@ -611,31 +611,23 @@ const ServiceAddForm = ({ isEditMode, id }) => {
                 </p>
               )}
             </div>
+
             {/* price */}
             <div>
-              <label htmlFor="price" className="block text-sm  text-gray-800">
-                Starting Price
-              </label>
-              <input
-                id="startingPrice"
-                {...register("startingPrice", {
-                  // required: !isEditMode && "Starting Price is required",
-                })}
-                className={`mt-1 block text-gray-800 w-full rounded-md border focus:outline-none ${
-                  errors.startingPrice ? "border-red-500" : "border-gray-300"
-                } px-4 py-2 `}
-              />
-              {errors.startingPrice && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.startingPrice.message}
-                </p>
-              )}
-            </div>
-            {/* price */}
-            <div>
-              <label htmlFor="price" className="block text-sm  text-gray-800">
-                Price
-              </label>
+              <div className="flex justify-between gap-3 items-center">
+                <label htmlFor="price" className="block text-sm  text-gray-800">
+                  Price
+                </label>
+                <div className="flex items-center gap-2 ">
+                  <input
+                    type="checkbox"
+                    {...register("isStartPrice")}
+                    className="toggle toggle-success "
+                  />
+                  <label className=" text-sm  text-gray-800">Start Price</label>
+                </div>
+              </div>
+
               <input
                 id="price"
                 {...register("price", {
