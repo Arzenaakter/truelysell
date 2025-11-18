@@ -37,7 +37,6 @@ const Faq = () => {
       );
       if (response.ok) {
         const result = await response.json();
-
         setAllData(result?.data);
         setTotalRecords(result?.numberOfRecords || 0);
         setLoading(false);
@@ -200,7 +199,6 @@ const Faq = () => {
         </div>
       )}
 
-      <div className="overflow-x-auto"></div>
       <FaqModal
         isOpen={isModalOpen}
         onSubmit={handleFaq}

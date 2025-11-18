@@ -300,7 +300,7 @@ const AddPage = () => {
           <button
             type="submit"
             // disabled={loading}
-            className="flex items-center gap-2 px-6 py-3  bg-[var(--primary-blue)]  text-white  rounded-md hover:shadow-lg transition-all duration-200 disabled:opacity-50"
+            className="flex items-center gap-2 px-6 py-3  bg-(--primary-blue)  text-white  rounded-md hover:shadow-lg transition-all duration-200 disabled:opacity-50"
           >
             <span>Add Page</span>
           </button>
