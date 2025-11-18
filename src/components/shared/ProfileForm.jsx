@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { FaStar } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { BsPersonCircle } from "react-icons/bs";
 import toast from "react-hot-toast";
