@@ -35,7 +35,7 @@ const navLinks = [
       { label: "Reviews", icon: <RxDashboard />, path: "/provider/reviews" },
       { label: "Equiries", icon: <RxDashboard />, path: "/provider/equiries" },
       { label: "Earnings", icon: <RxDashboard />, path: "/provider/earnings" },
-      { label: "Chat", icon: <RxDashboard />, path: "/provider/chat" },
+      // { label: "Chat", icon: <RxDashboard />, path: "/provider/chat" },
       {
         label: "Settings",
         icon: <RxDashboard />,
