@@ -212,10 +212,10 @@ const ProfileForm = ({ isEditMode, id }) => {
     }
   };
 
-  const languageOptions = [
-    { label: "Bangla", value: "Bangla" },
-    { label: "English", value: "English" },
-  ];
+  // const languageOptions = [
+  //   { label: "Bangla", value: "Bangla" },
+  //   { label: "English", value: "English" },
+  // ];
   return (
     <div className="">
       <div className="">
@@ -430,27 +430,11 @@ const ProfileForm = ({ isEditMode, id }) => {
             )}
           </div>
           <h5 className="mt-10">Permanent Address</h5>
-          <div>
-            <label htmlFor="name" className="block text-sm  text-gray-800">
-              Address
-            </label>
-            <input
-              type="text"
-              {...register("Name", {
-                required: !isEditMode ? "Name is required" : false,
-              })}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none mt-1"
-            />
-            {errors.Name && (
-              <p className="text-red-500 text-xs mt-1">{errors.Name.message}</p>
-            )}
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Country */}
             <div>
               <label htmlFor="name" className="block text-sm  text-gray-800">
-                Country
+                Address
               </label>
               <input
                 type="text"
@@ -465,6 +449,7 @@ const ProfileForm = ({ isEditMode, id }) => {
                 </p>
               )}
             </div>
+
             <LocationSelect
               allDivision={allDivision}
               allDistrict={allDistrict}
@@ -527,7 +512,7 @@ const ProfileForm = ({ isEditMode, id }) => {
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label htmlFor="name" className="block text-sm  text-gray-800">
                 Country
               </label>
@@ -543,7 +528,7 @@ const ProfileForm = ({ isEditMode, id }) => {
                   {errors.Name.message}
                 </p>
               )}
-            </div>
+            </div> */}
             <LocationSelect
               allDivision={allDivision}
               allDistrict={allDistrict}
@@ -558,8 +543,8 @@ const ProfileForm = ({ isEditMode, id }) => {
           </div>
 
           {/* language and currency */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/*   Currency Code */}
+          {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          
             <div>
               <label htmlFor="name" className="block text-sm  text-gray-800">
                 Currency Code
@@ -587,7 +572,7 @@ const ProfileForm = ({ isEditMode, id }) => {
                 </p>
               )}
             </div>
-            {/* Date of Birth */}
+           
             <div>
               <label htmlFor="name" className="block text-sm  text-gray-800">
                 Language
@@ -610,7 +595,7 @@ const ProfileForm = ({ isEditMode, id }) => {
                 </p>
               )}
             </div>
-          </div>
+          </div> */}
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 mt-4 text-sm">

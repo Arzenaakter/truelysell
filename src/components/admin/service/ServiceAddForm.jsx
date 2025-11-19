@@ -965,18 +965,16 @@ const ServiceAddForm = ({ isEditMode, id }) => {
           </div>
         </div>
         <div className="flex items-center gap-6 ps-4">
-          {userRole === "Admin" && (
-            <div className="flex items-center gap-2 ">
-              <input
-                type="checkbox"
-                {...register("isDefault")}
-                className="toggle toggle-success "
-              />
-              <label className="text-sm font-medium text-gray-600">
-                Is Default
-              </label>
-            </div>
-          )}
+          <div className="flex items-center gap-2 ">
+            <input
+              type="checkbox"
+              {...register("isDefault")}
+              className="toggle toggle-success "
+            />
+            <label className="text-sm font-medium text-gray-600">
+              Is Default
+            </label>
+          </div>
 
           <div className="flex items-center gap-2 ">
             <input

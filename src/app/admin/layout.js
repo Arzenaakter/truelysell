@@ -147,11 +147,11 @@ const navLinks = [
         icon: <FaBook />,
         path: "/admin/roles-permissions",
       },
-      {
-        label: "Delete Account Requests",
-        icon: <FaBook />,
-        path: "/admin/delete-account-requests",
-      },
+      // {
+      //   label: "Delete Account Requests",
+      //   icon: <FaBook />,
+      //   path: "/admin/delete-account-requests",
+      // },
       {
         label: "Verification Requests",
         icon: <FaBook />,
