@@ -38,7 +38,6 @@ const CashOnDeliveryPage = () => {
         setTotalRecords(result?.numberOfRecords || 0);
         setLoading(false);
       } else {
-        const errorData = await response.json();
         setLoading(false);
         setAllData([]);
         setTotalRecords(0);
@@ -55,7 +54,7 @@ const CashOnDeliveryPage = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-10">
-        <h4>Reviews </h4>
+        <h4>Cash On Delivery </h4>
       </div>
       {/* table */}
       {loading ? (

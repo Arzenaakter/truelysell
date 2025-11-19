@@ -27,8 +27,35 @@ const initialItems = [
   },
   {
     id: 3,
-    type: "document",
-    title: "Documentation Verification",
+    type: "NID or Birth certificate",
+    title: "NID or Birth certificate Verification",
+    desc: "You will not able to place order until the real name is confirmed",
+    icon: <HiOutlineDocumentText className="text-4xl text-gray-500" />,
+    status: "Not Verified",
+    buttonText: "Upload Document",
+  },
+  {
+    id: 4,
+    type: "Trade License",
+    title: "Trade License Verification",
+    desc: "You will not able to place order until the real name is confirmed",
+    icon: <HiOutlineDocumentText className="text-4xl text-gray-500" />,
+    status: "Not Verified",
+    buttonText: "Upload Document",
+  },
+  {
+    id: 5,
+    type: "BIN/TIN",
+    title: "BIN/TIN Verification",
+    desc: "You will not able to place order until the real name is confirmed",
+    icon: <HiOutlineDocumentText className="text-4xl text-gray-500" />,
+    status: "Not Verified",
+    buttonText: "Upload Document",
+  },
+  {
+    id: 6,
+    type: "Photo",
+    title: "Photo Verification",
     desc: "You will not able to place order until the real name is confirmed",
     icon: <HiOutlineDocumentText className="text-4xl text-gray-500" />,
     status: "Not Verified",
@@ -125,7 +152,7 @@ const ProfileVerificationPage = () => {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {items.map((item) => (
           <div
             key={item.id}
