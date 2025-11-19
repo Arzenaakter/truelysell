@@ -36,7 +36,17 @@ const navLinks = [
       { label: "Equiries", icon: <RxDashboard />, path: "/provider/equiries" },
       { label: "Earnings", icon: <RxDashboard />, path: "/provider/earnings" },
       { label: "Chat", icon: <RxDashboard />, path: "/provider/chat" },
-      { label: "Settings", icon: <FaBook />, path: "/provider/settings" },
+      {
+        label: "Settings",
+        icon: <RxDashboard />,
+        children: [
+          { label: "Profile", path: "/provider/profile" },
+          {
+            label: "Profile Verification",
+            path: "/provider/profile/profile-verification",
+          },
+        ],
+      },
       { label: "Logout", icon: <FaBook />, path: "/" },
     ],
   },

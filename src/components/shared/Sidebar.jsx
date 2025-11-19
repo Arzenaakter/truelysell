@@ -102,8 +102,8 @@ const Sidebar = ({ navLinks, role }) => {
                           onClick={logout}
                           className={`flex items-center gap-2 w-full text-left py-2 px-3 rounded ${
                             role !== "admin"
-                              ? "text-[#080C18] hover:text-[var(--primary)]"
-                              : "text-white hover:bg-[var(--primary-blue)]"
+                              ? "text-[#080C18] hover:text-(--primary)"
+                              : "text-white hover:bg-(--primary-blue)"
                           }`}
                         >
                           {item.icon}
@@ -120,9 +120,13 @@ const Sidebar = ({ navLinks, role }) => {
                           <button
                             onClick={() => toggleMenu(item.label)}
                             className={`flex items-center justify-between w-full py-2 px-3 rounded ${
-                              parentActive
-                                ? "bg-blue-700 text-white"
-                                : "hover:bg-blue-700 text-white"
+                              role === "admin"
+                                ? parentActive
+                                  ? "bg-blue-700 text-white "
+                                  : "hover:bg-blue-700 text-white"
+                                : parentActive
+                                ? "text-(--primary)"
+                                : "hover:text-(--primary) text-[#080C18]"
                             }`}
                           >
                             <span className="flex items-center gap-2">
@@ -147,10 +151,14 @@ const Sidebar = ({ navLinks, role }) => {
                                 <li key={j}>
                                   <Link
                                     href={child.path}
-                                    className={`block py-1 px-2 rounded ${
-                                      isActive(child.path)
-                                        ? "text-[var(--primary-blue)] "
-                                        : "hover:text-[var(--primary-blue)] text-white"
+                                    className={`block py-1 px-2 rounded   ${
+                                      role === "admin"
+                                        ? isActive(child.path)
+                                          ? "text-(--primary-blue) "
+                                          : "hover:text-(--primary-blue) text-white"
+                                        : isActive(child.path)
+                                        ? "text-(--primary) "
+                                        : "hover:text-(--primary) text-[#080C18]"
                                     }`}
                                   >
                                     {child.label}
