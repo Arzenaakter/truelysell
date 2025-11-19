@@ -8,15 +8,20 @@ import { services } from "@/data/json/provider-my-services";
 const activeServices = services.filter(
   (service) => service.status === "Active"
 );
-const inactiveServices = services.filter(
-  (service) => service.status === "Inactive"
+const pendingService = services.filter(
+  (service) => service.status === "Pending"
 );
+const draftService = services.filter((service) => service.status === "Draft");
 
 const tabs = [
   { name: "Active Services", component: <MyServices data={activeServices} /> },
   {
-    name: "Inactive Services",
-    component: <MyServices data={inactiveServices} />,
+    name: "Pending Services",
+    component: <MyServices data={pendingService} />,
+  },
+  {
+    name: "Draft Services",
+    component: <MyServices data={draftService} />,
   },
 ];
 

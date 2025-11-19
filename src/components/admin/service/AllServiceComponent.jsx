@@ -13,6 +13,10 @@ const tabs = [
     component: <AllServicesTable serviceStatus="Inactive" />,
   },
   {
+    name: "Pending",
+    component: <AllServicesTable serviceStatus="Pending" />,
+  },
+  {
     name: "Deleted",
     component: <AllServicesTable serviceStatus="Deleted" />,
   },

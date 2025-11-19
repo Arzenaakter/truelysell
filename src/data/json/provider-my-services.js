@@ -30,7 +30,7 @@ export const services = [
     price: "$15.00",
     oldPrice: "$20.00/hr",
     rating: 4.9,
-    status: "Inactive",
+    status: "Pending",
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ export const services = [
     price: "$25.00",
     oldPrice: "$30.00/hr",
     rating: 4.7,
-    status: "Inactive",
+    status: "Pending",
   },
   {
     id: 6,
@@ -74,7 +74,7 @@ export const services = [
     price: "$18.00",
     oldPrice: "$22.00/hr",
     rating: 4.6,
-    status: "Active",
+    status: "Draft",
   },
   {
     id: 8,
@@ -96,6 +96,6 @@ export const services = [
     price: "$22.00",
     oldPrice: "$28.00/hr",
     rating: 4.8,
-    status: "Inactive",
+    status: "Pending",
   },
 ];
