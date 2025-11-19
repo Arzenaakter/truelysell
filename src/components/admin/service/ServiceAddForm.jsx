@@ -457,7 +457,7 @@ const ServiceAddForm = ({ isEditMode, id }) => {
           <div className="border-b border-gray-200/80 my-6"></div>
           <div
             className={`mb-6 grid  ${
-              userRole === "Admin" ? "lg:grid-cols-3" : ""
+              userRole === "Admin" ? "lg:grid-cols-2" : ""
             } gap-6`}
           >
             {userRole === "Admin" && (
