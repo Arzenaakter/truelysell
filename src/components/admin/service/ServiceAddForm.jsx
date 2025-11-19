@@ -989,17 +989,18 @@ const ServiceAddForm = ({ isEditMode, id }) => {
               </label>
             </div>
           )}
-
-          <div className="flex items-center gap-2 ">
-            <input
-              type="checkbox"
-              {...register("isDraft")}
-              className="toggle toggle-success "
-            />
-            <label className="text-sm font-medium text-gray-600">
-              Save as Draft
-            </label>
-          </div>
+          {userRole === "Provider" && (
+            <div className="flex items-center gap-2 ">
+              <input
+                type="checkbox"
+                {...register("isDraft")}
+                className="toggle toggle-success "
+              />
+              <label className="text-sm font-medium text-gray-600">
+                Save as Draft
+              </label>
+            </div>
+          )}
         </div>
 
         {/* Submit button */}
