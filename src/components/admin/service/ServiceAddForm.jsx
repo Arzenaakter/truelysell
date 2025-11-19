@@ -457,7 +457,7 @@ const ServiceAddForm = ({ isEditMode, id }) => {
           <div className="border-b border-gray-200/80 my-6"></div>
           <div
             className={`mb-6 grid  ${
-              userRole === "Admin" ? "lg:grid-cols-2" : ""
+              userRole === "Admin" ? "lg:grid-cols-3" : "lg:grid-cols-2"
             } gap-6`}
           >
             {userRole === "Admin" && (
@@ -503,6 +503,31 @@ const ServiceAddForm = ({ isEditMode, id }) => {
               {errors.title && (
                 <p className="mt-1 text-sm text-red-600">
                   {errors.title.message}
+                </p>
+              )}
+            </div>
+            <div>
+              <label
+                htmlFor="subCategoryId"
+                className="block text-sm  text-gray-800"
+              >
+                Service Status
+              </label>
+              <select
+                id="serviceStatus"
+                {...register("serviceStatus", {
+                  required: !isEditMode && "Sub Category is required",
+                })}
+                className={`mt-1 block w-full rounded-md text-gray-600 text-sm border border-gray-300 px-4 py-3 focus:outline-none `}
+              >
+                <option value="">Please Select</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Pending">Pending</option>
+              </select>
+              {errors.serviceStatus && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.serviceStatus.message}
                 </p>
               )}
             </div>
@@ -965,26 +990,28 @@ const ServiceAddForm = ({ isEditMode, id }) => {
           </div>
         </div>
         <div className="flex items-center gap-6 ps-4">
-          <div className="flex items-center gap-2 ">
-            <input
-              type="checkbox"
-              {...register("isDefault")}
-              className="toggle toggle-success "
-            />
-            <label className="text-sm font-medium text-gray-600">
-              Is Default
-            </label>
-          </div>
+          {userRole === "Admin" && (
+            <div className="flex items-center gap-2 ">
+              <input
+                type="checkbox"
+                {...register("isDefault")}
+                className="toggle toggle-success "
+              />
+              <label className="text-sm font-medium text-gray-600">
+                Is Default
+              </label>
+            </div>
+          )}
 
           <div className="flex items-center gap-2 ">
-            <input
+            {/* <input
               type="checkbox"
               {...register("isActive")}
               className="toggle toggle-success "
             />
             <label className="text-sm font-medium text-gray-600">
               Is Active
-            </label>
+            </label> */}
           </div>
         </div>
 
