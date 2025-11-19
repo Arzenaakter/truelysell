@@ -34,7 +34,7 @@ const ReviewPage = () => {
       );
       if (response.ok) {
         const result = await response.json();
-        console.log("Reviews Data:", result);
+
         setAllData(result?.data);
         setTotalRecords(result?.numberOfRecords || 0);
         setLoading(false);
