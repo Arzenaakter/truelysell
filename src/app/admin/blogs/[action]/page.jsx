@@ -32,6 +32,19 @@ const UpdateBlogPage = ({ params, searchParams }) => {
     },
   });
 
+  const nameValue = watch("name");
+
+  useEffect(() => {
+    if (nameValue && !isEditMode) {
+      const generatedSlug = nameValue
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-");
+      setValue("slug", generatedSlug);
+    }
+  }, [nameValue, setValue, isEditMode]);
+
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -45,37 +58,37 @@ const UpdateBlogPage = ({ params, searchParams }) => {
 
   const onSubmit = async (data) => {
     console.log("Form Data Submitted: ", data);
-    // try {
-    //   setLoading(true);
+    try {
+      setLoading(true);
 
-    //   const response = await fetch(
-    //     `${process.env.NEXT_PUBLIC_API_URL}service/`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${user ? user : ""}`,
-    //       },
-    //       body: JSON.stringify({
-    //         ...data,
-    //         userId: userId ?? "",
-    //       }),
-    //     }
-    //   );
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}service/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user ? user : ""}`,
+          },
+          body: JSON.stringify({
+            ...data,
+            userId: userId ?? "",
+          }),
+        }
+      );
 
-    //   if (response.ok) {
-    //     toast.success("Service added successfully");
-    //     router.push("/admin/services");
-    //   } else {
-    //     toast.error("Failed to add service. Please try again.");
-    //   }
-    // } catch {
-    //   toast.error(
-    //     "An error occurred while adding the service. Please try again."
-    //   );
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (response.ok) {
+        toast.success("Service added successfully");
+        router.push("/admin/services");
+      } else {
+        toast.error("Failed to add service. Please try again.");
+      }
+    } catch {
+      toast.error(
+        "An error occurred while adding the service. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div>
@@ -208,7 +221,7 @@ const UpdateBlogPage = ({ params, searchParams }) => {
               )}
             </div>
           </div>
-          {/*  tags*/}
+
           <div className="  mb-6">
             {/* description */}
             <div>

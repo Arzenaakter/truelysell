@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useAppContext } from "@/context/AppContext";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Select from "react-select";
 
@@ -22,6 +23,10 @@ const AddCouponModal = ({ isOpen, onClose, onSubmit, Id }) => {
   });
 
   const isEditMode = Boolean(Id);
+  const [providers, setProviders] = useState([]);
+  const [allCategoryData, setAllCategoryData] = useState([]);
+  const { loading, setLoading } = useAppContext();
+
   const getSingleCoupon = async () => {
     try {
       const response = await fetch(
@@ -44,14 +49,95 @@ const AddCouponModal = ({ isOpen, onClose, onSubmit, Id }) => {
       }
     } catch (error) {}
   };
+  const getProviders = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}dropdown/getproviders`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const result = await response.json();
+        setProviders(result.data);
+      } else {
+        const errorData = await response.json();
+      }
+    } catch (error) {}
+  };
+  const getCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}dropdown/getcategories`,
+
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const result = await response.json();
+        console.log("category data", result);
+        setAllCategoryData(result?.data);
+        setLoading(false);
+      } else {
+        const errorData = await response.json();
+        setLoading(false);
+        setAllCategoryData([]);
+      }
+    } catch (error) {
+      setAllCategoryData([]);
+      setLoading(false);
+    }
+  };
+  const getServices = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}dropdown/getservices`,
+
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const result = await response.json();
+        setAllCategoryData(result?.data);
+        setLoading(false);
+      } else {
+        const errorData = await response.json();
+        setLoading(false);
+        setAllCategoryData([]);
+      }
+    } catch (error) {
+      setAllCategoryData([]);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
+    getProviders();
+    getCategories();
+    // getServices();
+
     if (Id) {
       getSingleCoupon();
     } else {
       reset();
     }
-  }, [Id, reset]);
+  }, [isEditMode, Id, reset]);
 
   const languageOptions = [
     { label: "Car wash", value: "Bangla" },
@@ -125,8 +211,8 @@ const AddCouponModal = ({ isOpen, onClose, onSubmit, Id }) => {
               className={`mt-1 block w-full rounded-md text-gray-600 text-sm border border-gray-300 px-4 py-3 focus:outline-none `}
             >
               <option value="">Select type</option>
-              <option value="">English</option>
-              <option value="">Bangla</option>
+              <option value="">Fixed</option>
+              <option value="">Percentage</option>
             </select>
           </div>
           <div className="mb-6">
@@ -183,6 +269,60 @@ const AddCouponModal = ({ isOpen, onClose, onSubmit, Id }) => {
               } px-4 py-2 `}
             />
           </div>
+          {/* Provider */}
+          <div className="mb-6">
+            <label
+              htmlFor="ServicesName"
+              className="block text-sm  text-gray-800"
+            >
+              Provider
+            </label>
+            <Select
+              id="provider"
+              options={providers.map((prov) => ({
+                label: prov.name,
+                value: prov.id,
+              }))}
+              onChange={(val) => setValue("provider", val)}
+              placeholder="Select Provider "
+              className="mt-1"
+              classNames={{
+                control: () =>
+                  `mt-1 block w-full rounded-xl text-gray-600 text-sm border border-gray-300 py-0.5 focus:outline-none `,
+              }}
+            />
+            {errors.provider && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.provider.message}
+              </p>
+            )}
+          </div>
+          {/* Category */}
+          <div className="mb-6">
+            <label htmlFor="Category" className="block text-sm  text-gray-800">
+              Category
+            </label>
+            <Select
+              id="Category"
+              options={allCategoryData.map((cat) => ({
+                label: cat.name,
+                value: cat.id,
+              }))}
+              onChange={(val) => setValue("Category", val)}
+              placeholder="Select Category"
+              className="mt-1"
+              classNames={{
+                control: () =>
+                  `mt-1 block w-full rounded-xl text-gray-600 text-sm border border-gray-300 py-0.5 focus:outline-none `,
+              }}
+            />
+            {errors.Category && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.Category.message}
+              </p>
+            )}
+          </div>
+          {/* service */}
           <div className="mb-6">
             <label
               htmlFor="ServicesName"
