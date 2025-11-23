@@ -85,7 +85,7 @@ const AllBlogs = ({ blogStatus }) => {
                 {/* Blog Image */}
                 <div className="relative overflow-hidden">
                   <img
-                    src={`${process.env.NEXT_PUBLIC_API_ADMIN_URL}files/blog${blog.blogThumbnail}`}
+                    src={`${process.env.NEXT_PUBLIC_API_ADMIN_URL}files/blog/${blog.blogThumbnail}`}
                     alt={blog.title}
                     className="w-full h-48 object-cover rounded-t-md transform transition-transform duration-500 ease-in-out hover:scale-110"
                   />
@@ -94,15 +94,9 @@ const AllBlogs = ({ blogStatus }) => {
                   </span>
                 </div>
 
-                {/* Content */}
                 <div className="p-4 flex flex-col grow">
                   {/* Author + Date */}
                   <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
-                    {/* <img
-                      src={blog.authorImg}
-                      alt={blog.createdUser}
-                      className="w-8 h-8 rounded-full"
-                    /> */}
                     <span className="font-medium text-gray-700">
                       {blog.createdUser}
                     </span>
@@ -118,14 +112,16 @@ const AllBlogs = ({ blogStatus }) => {
                     {blog.title}
                   </Link>
                   {/* content */}
-                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">
-                    {blog.content}
-                  </p>
+
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: blog.content }}
+                  />
 
                   {/* Actions */}
                   <div className="mt-auto flex justify-between items-center text-gray-600 text-sm">
                     <Link
-                      href={`/admin/blog/edit?id=${blog?.id}`}
+                      href={`/admin/blogs/edit?id=${blog?.id}`}
                       className="flex items-center gap-1 hover:text-blue-500"
                     >
                       <FaEdit /> Edit

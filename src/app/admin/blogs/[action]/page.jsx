@@ -4,8 +4,10 @@ import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { use, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const UpdateBlogPage = ({ params, searchParams }) => {
   const { action } = use(params);
@@ -13,8 +15,10 @@ const UpdateBlogPage = ({ params, searchParams }) => {
   const isEdit = action === "edit";
   const router = useRouter();
   const fileInputRef = useRef(null);
+  const [preview, setPreview] = useState("");
+  const [allCategoryData, setAllCategoryData] = useState([]);
+
   const { user, userId, loading, setLoading } = useAppContext();
-  const [thumbnailPreview, setThumbnailPreview] = useState();
 
   const {
     register,
@@ -26,9 +30,14 @@ const UpdateBlogPage = ({ params, searchParams }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      services: [
-        { additionalService: "", servicePrice: "", serviceDuration: "" },
-      ],
+      Title: "",
+      Slug: "",
+      BlogCategoryId: "",
+      Tags: "",
+      MetaKeywords: "",
+      MetaDescription: "",
+      Content: "",
+      IsActive: false,
     },
   });
 
@@ -45,47 +54,128 @@ const UpdateBlogPage = ({ params, searchParams }) => {
     }
   }, [nameValue, setValue, isEdit]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setThumbnailPreview(URL.createObjectURL(file));
+  const getCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}dropdown/getblogcategories`,
+
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const result = await response.json();
+
+        setAllCategoryData(result?.data || []);
+        setLoading(false);
+      } else {
+        const errorData = await response.json();
+        setLoading(false);
+        setAllCategoryData([]);
+      }
+    } catch (error) {
+      setAllCategoryData([]);
+      setLoading(false);
+    }
+  };
+  const getSingleBlogs = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}blog/getblogbyid/${id}`,
+
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        }
+      );
+      if (response.ok) {
+        const { data } = await response.json();
+
+        setValue("Title", data.title || "");
+        setValue("Slug", data.slug || "");
+        setValue("BlogCategoryId", data.blogCategoryId || "");
+        setValue("Tags", data.tags || "");
+        setValue("MetaKeywords", data.metaKeywords || "");
+        setValue("MetaDescription", data.metaDescription || "");
+        setValue("Content", data.content || "");
+        setValue("IsActive", data.isActive || false);
+        setPreview(
+          `${process.env.NEXT_PUBLIC_API_ADMIN_URL}files/blog/${data.blogThumbnail}`
+        );
+
+        setLoading(false);
+      } else {
+        const errorData = await response.json();
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
     }
   };
 
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
-  };
+  useEffect(() => {
+    getCategories();
+
+    if (isEdit && id) {
+      getSingleBlogs();
+    }
+  }, [isEdit, id]);
 
   const onSubmit = async (data) => {
-    console.log("Form Data Submitted: ", data);
+    const formData = new FormData();
+    formData.append("Title", data.Title);
+    formData.append("Slug", data.Slug || "");
+    formData.append("BlogCategoryId", data.BlogCategoryId);
+    formData.append("Tags", data.Tags);
+    formData.append("MetaKeywords", data.MetaKeywords);
+    formData.append("MetaDescription", data.MetaDescription);
+    formData.append("Content", data.Content);
+    formData.append("IsActive", data.IsActive);
+
+    if (data.BlogThumbnailFile && data.BlogThumbnailFile.length > 0) {
+      for (const img of data.BlogThumbnailFile) {
+        formData.append("BlogThumbnailFile", img);
+      }
+    }
+    if (id) {
+      formData.append("Id", id);
+    }
     try {
       setLoading(true);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}service/`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user ? user : ""}`,
-          },
-          body: JSON.stringify({
-            ...data,
-            userId: userId ?? "",
-          }),
-        }
-      );
+      const endpoint = isEdit
+        ? `${process.env.NEXT_PUBLIC_API_ADMIN_URL}blog/update/${id}`
+        : `${process.env.NEXT_PUBLIC_API_ADMIN_URL}blog/create`;
 
-      if (response.ok) {
-        toast.success("Service added successfully");
-        router.push("/admin/services");
+      const method = isEdit ? "PUT" : "POST";
+
+      const response = await fetch(endpoint, {
+        method,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("user")}`,
+        },
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (response.ok && result.message) {
+        toast.success(result.message);
+        router.push("/admin/blogs");
+        reset();
       } else {
-        toast.error("Failed to add service. Please try again.");
+        toast.error(result.error || "Failed to add blog. Please try again.");
       }
     } catch {
-      toast.error(
-        "An error occurred while adding the service. Please try again."
-      );
+      toast.error("An error occurred while adding the blog. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -94,7 +184,7 @@ const UpdateBlogPage = ({ params, searchParams }) => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className=" ">
         <div className=" p-4   ">
-          <h5>Add Blog</h5>
+          <h5>{isEdit ? "Update" : "Add"} Blog</h5>
           <div className="border-b border-gray-200/80 my-6"></div>
           <div className="grid lg:grid-cols-2 gap-6 mb-6">
             {/* title */}
@@ -129,89 +219,83 @@ const UpdateBlogPage = ({ params, searchParams }) => {
                   errors.Slug ? "border-red-500" : "border-gray-300"
                 } px-4 py-2 `}
               />
-              {errors.Slug && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.Slug.message}
-                </p>
-              )}
             </div>
           </div>
           {/*  */}
-          <div className="grid lg:grid-cols-2 gap-6 mb-6">
-            {/* language */}
-            <div>
-              <label
-                htmlFor="language"
-                className="block text-sm  text-gray-800"
-              >
-                Language
-              </label>
-              <select
-                id="language"
-                {...register("language")}
-                className="mt-1 block w-full rounded-md text-gray-600 text-sm border border-gray-300 px-4 py-3 focus:outline-none "
-              >
-                <option value="" className="">
-                  Select language
-                </option>
-                <option value="english">English</option>
-              </select>
-            </div>
+          <div className=" gap-6 mb-6">
             {/* Category */}
             <div>
               <label
-                htmlFor="category"
+                htmlFor="BlogCategoryId"
                 className="block text-sm  text-gray-800"
               >
                 Category
               </label>
               <select
-                id="category"
-                {...register("category")}
+                id="BlogCategoryId"
+                {...register("BlogCategoryId", {
+                  required: isEdit ? false : "Category is required",
+                })}
                 className="mt-1 block w-full rounded-md text-gray-600 text-sm border border-gray-300 px-4 py-3 focus:outline-none "
               >
                 <option value="" className="">
                   Select category
                 </option>
-                <option value="">category 1</option>
+                {allCategoryData.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
+              {errors.BlogCategoryId && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.BlogCategoryId.message}
+                </p>
+              )}
             </div>
           </div>
           {/*  */}
           <div className=" grid lg:grid-cols-2 gap-6 mb-6">
             <div>
-              <label htmlFor="tags" className="block text-sm  text-gray-800">
+              <label htmlFor="Tags" className="block text-sm  text-gray-800">
                 Tags
               </label>
               <input
-                id="tags"
-                {...register("tags", {})}
+                id="Tags"
+                {...register("Tags", {
+                  required: isEdit ? false : "Tags is required",
+                })}
                 className={`mt-1 block text-gray-800 w-full rounded-md border focus:outline-none ${
-                  errors.tags ? "border-red-500" : "border-gray-300"
+                  errors.Tags ? "border-red-500" : "border-gray-300"
                 } px-4 py-2 `}
               />
+              {errors.Tags && (
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.Tags.message}
+                </p>
+              )}
             </div>
 
             {/* keywords */}
             <div>
               <label
-                htmlFor="keywords"
+                htmlFor="MetaKeywords"
                 className="block text-sm  text-gray-800"
               >
                 Meta Keywords
               </label>
               <input
-                id="keywords"
-                {...register("keywords", {
-                  required: "keywords is required",
+                id="MetaKeywords"
+                {...register("MetaKeywords", {
+                  required: isEdit ? false : "keywords is required",
                 })}
                 className={`mt-1 block text-gray-800 w-full rounded-md border focus:outline-none ${
-                  errors.keywords ? "border-red-500" : "border-gray-300"
+                  errors.MetaKeywords ? "border-red-500" : "border-gray-300"
                 } px-4 py-2 `}
               />
-              {errors.keywords && (
+              {errors.MetaKeywords && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.keywords.message}
+                  {errors.MetaKeywords.message}
                 </p>
               )}
             </div>
@@ -221,23 +305,23 @@ const UpdateBlogPage = ({ params, searchParams }) => {
             {/* description */}
             <div>
               <label
-                htmlFor="description"
+                htmlFor="MetaDescription"
                 className="block text-sm  text-gray-800"
               >
                 Meta Description
               </label>
               <textarea
-                id="description"
-                {...register("description", {
-                  required: "description is required",
+                id="MetaDescription"
+                {...register("MetaDescription", {
+                  required: isEdit ? false : "description is required",
                 })}
                 className={`mt-1 block text-gray-800 w-full rounded-md border focus:outline-none ${
-                  errors.description ? "border-red-500" : "border-gray-300"
+                  errors.MetaDescription ? "border-red-500" : "border-gray-300"
                 } px-4 py-2 `}
               />
-              {errors.description && (
+              {errors.MetaDescription && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.description.message}
+                  {errors.MetaDescription.message}
                 </p>
               )}
             </div>
@@ -247,63 +331,93 @@ const UpdateBlogPage = ({ params, searchParams }) => {
             <label className="block text-sm  text-gray-800 ">
               Blog Thumbnail
             </label>
-            <div
-              onClick={handleImageClick}
-              className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-blue-200 border-dashed rounded-lg cursor-pointer hover:border-blue-400 transition-colors duration-200"
-            >
-              <div className="space-y-1 text-center">
-                {thumbnailPreview ? (
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={thumbnailPreview}
-                      alt="Thumbnail preview"
-                      width={1000}
-                      height={500}
-                      className="object-contain w-ful h-full"
-                    />
-                  </div>
-                ) : (
-                  <>
-                    <FaUpload className="mx-auto h-8 w-8 text-gray-400" />
-                    <div className="flex flex-col items-center text-sm justify-center text-gray-600">
-                      <span className="relative bg-white rounded-md font-medium text-gray-600 hover:text-blue-500 focus-within:outline-none">
-                        Upload a file
-                      </span>
-                      {/* <p className="text-xs text-blue-500">
-                        Supported formates: JPEG, PNG
-                      </p> */}
-                    </div>
-                  </>
-                )}
-              </div>
+
+            <div className="mt-1">
+              <button
+                type="button"
+                onClick={() => fileInputRef?.current?.click()}
+                className="px-3 py-5 bg-gray-50  w-full border-gray-300 border border-dashed rounded-md text-sm flex justify-center"
+              >
+                <div>
+                  <FaUpload className="mx-auto h-8 w-8 text-gray-400 mb-2" />
+                  <span className="relative bg-white rounded-md font-medium text-gray-600 hover:text-blue-500 focus-within:outline-none  text-sm">
+                    Upload a file
+                  </span>
+                </div>
+              </button>
             </div>
+            {preview && (
+              <div className="relative my-5 inline-block">
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="w-20 h-20  object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPreview("");
+                    setValue("BlogThumbnailFile", null);
+                  }}
+                  className=" text-white bg-red-500 p-1 rounded m-1 absolute top-0 right-0 z-20"
+                >
+                  <FaRegTrashCan />
+                </button>
+              </div>
+            )}
+
             <input
-              ref={fileInputRef}
               type="file"
-              accept="image/*"
-              onChange={handleImageChange}
+              accept="image/png, image/jpeg"
+              ref={(el) => {
+                fileInputRef.current = el;
+                register("BlogThumbnailFile");
+              }}
+              onChange={(e) => {
+                const files = Array.from(e.target.files || []);
+                setPreview(URL.createObjectURL(files[0]));
+                setValue("BlogThumbnailFile", files, { shouldValidate: true });
+              }}
               className="hidden"
             />
+
+            {errors.BlogThumbnailFile && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.BlogThumbnailFile.message}
+              </p>
+            )}
           </div>
 
           {/* page content */}
           <div>
             <label
-              htmlFor="pageContent"
+              htmlFor="Content"
               className="block text-sm  text-gray-800 mb-1"
             >
               Content
             </label>
-            <Editor
-              value={watch("pageContent")}
-              onChange={(content) => setValue("pageContent", content)}
+            <Controller
+              name="Content"
+              control={control}
+              render={({ field }) => (
+                <Editor value={field.value} onChange={field.onChange} />
+              )}
             />
-            {errors.pageContent && (
+
+            {errors.Content && (
               <p className="mt-1 text-sm text-red-600">
-                {errors.pageContent.message}
+                {errors.Content.message}
               </p>
             )}
           </div>
+        </div>
+        <div className="flex items-center gap-2 ps-6">
+          <input
+            type="checkbox"
+            {...register("IsActive")}
+            className="toggle toggle-success "
+          />
+          <label className="text-sm font-medium text-gray-600">Is Active</label>
         </div>
 
         {/* Submit button */}

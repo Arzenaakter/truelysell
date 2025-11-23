@@ -377,12 +377,6 @@ const ServiceAddForm = ({ isEditMode, id }) => {
         price: parseFloat(data.price),
         VideoLink: data.VideoLink,
         isActive: data.isActive,
-        isDefault: data.isDefault,
-        listServiceAdditional: data.services.map((s) => ({
-          name: s.additionalService,
-          price: parseFloat(s.servicePrice),
-          duration: s.serviceDuration,
-        })),
 
         serviceLocation: {
           divisionId: Array.isArray(data.divisionId)

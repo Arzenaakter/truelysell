@@ -119,7 +119,7 @@ const VerificationRequestsPage = () => {
           <thead className="bg-sky-600/10 text-gray-800 text-xs uppercase">
             <tr>
               <th className="py-5 px-3">#</th>
-              <th className="py-5 px-3">User Name</th>
+              <th className="py-5 px-3">Provider Name</th>
               <th className="py-5 px-3">Document Type</th>
               <th className="py-5 px-3">Document Name</th>
               <th className="py-5 px-3">Download</th>
