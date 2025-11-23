@@ -2,23 +2,64 @@
 
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaStar } from "react-icons/fa";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const AddRoleModal = ({ isOpen, onClose, onSubmit }) => {
-  const { register, handleSubmit, setValue, watch } = useForm({
+const AddRoleModal = ({ isOpen, onClose, onSubmit, Id }) => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+
+    formState: { errors },
+  } = useForm({
     defaultValues: {
-      role: "",
+      Name: "",
+      IsActive: true,
     },
   });
+
+  const isEditMode = Boolean(Id);
+  const getSingleRoles = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}roles/getrolebyid/${Id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("user")}`,
+          },
+        }
+      );
+      const result = await response.json();
+
+      if (response.ok && result.data) {
+        const data = result.data;
+
+        setValue("Name", data.name || "");
+        setValue("IsActive", data.isActive || "");
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (Id) {
+      getSingleRoles();
+    } else {
+      reset();
+    }
+  }, [Id, reset]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center bg-black/50 overflow-y-auto ">
-      <div className="bg-white lg:h-[200px] w-full max-w-md rounded-xl shadow-lg p-6 relative my-5  overflow-y-auto  sidebar-scroll">
+    <div className="fixed inset-0 z-50 flex justify-center bg-black/50 items-center ">
+      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative my-5  overflow-y-auto  sidebar-scroll">
         {/* Header */}
         <div className="flex items-center justify-between mb-2">
-          <h6 className="text-lg font-semibold mx-auto">Add Role</h6>
+          <h6 className="text-lg font-semibold mx-auto">
+            {isEditMode ? "Update" : "Add"} Role
+          </h6>
           <button
             type="button"
             onClick={onClose}
@@ -29,26 +70,28 @@ const AddRoleModal = ({ isOpen, onClose, onSubmit }) => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            await onSubmit(data);
+            reset();
+          })}
+          className="space-y-4"
+        >
           {/* Name */}
           <input
             type="text"
             placeholder="Role"
-            {...register("role")}
+            {...register("Name", { required: !isEditMode && true })}
             className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none"
           />
-
-          {/* <select
-            {...register("role")}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none text-gray-500 "
-          >
-            <option value="" className="text-sm  ">
-              Select Role
-            </option>
-            <option value="admin">Admin</option>
-            <option value="provider">Provider</option>
-            <option value="customer">Customer</option>
-          </select> */}
+          <div className="flex items-center justify-start gap-3">
+            <label className="text-sm font-medium">Status</label>
+            <input
+              type="checkbox"
+              {...register("IsActive")}
+              className="toggle toggle-success"
+            />
+          </div>
 
           {/* Buttons */}
           <div className="flex justify-end gap-3 mt-4 text-sm">
@@ -61,9 +104,9 @@ const AddRoleModal = ({ isOpen, onClose, onSubmit }) => {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-[var(--primary-blue)] text-white rounded-md"
+              className="px-4 py-2 bg-(--primary-blue) text-white rounded-md"
             >
-              Save
+              {isEditMode ? "Update" : "Save"}
             </button>
           </div>
         </form>

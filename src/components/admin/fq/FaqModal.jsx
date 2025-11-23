@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const FaqModal = ({ isOpen, onClose, onSubmit, faqId }) => {
+const FaqModal = ({ isOpen, onClose, onSubmit, Id }) => {
   const {
     register,
     handleSubmit,
@@ -20,11 +20,11 @@ const FaqModal = ({ isOpen, onClose, onSubmit, faqId }) => {
     },
   });
 
-  const isEditMode = Boolean(faqId);
+  const isEditMode = Boolean(Id);
   const getSingleFaq = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}faq/getfaqsbyid/${faqId}`,
+        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}faq/getfaqsbyid/${Id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -45,12 +45,12 @@ const FaqModal = ({ isOpen, onClose, onSubmit, faqId }) => {
   };
 
   useEffect(() => {
-    if (faqId) {
+    if (Id) {
       getSingleFaq();
     } else {
       reset();
     }
-  }, [faqId, reset]);
+  }, [Id, reset]);
 
   if (!isOpen) return null;
   return (

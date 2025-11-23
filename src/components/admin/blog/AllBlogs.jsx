@@ -102,7 +102,7 @@ const AllBlogs = ({ blogStatus }) => {
 
                   {/* Title */}
                   <Link
-                    href={`/blog/${blog.id}`}
+                    href={`/admin/blogs/view?id=${blog.id}`}
                     className="font-semibold text-gray-800 mb-2 cursor-pointer hover:text-(--primary-blue) transition-colors duration-300"
                   >
                     {blog.title}

@@ -206,7 +206,7 @@ const Faq = () => {
           setIsModalOpen(false);
           setSelectedId(null);
         }}
-        faqId={selectedId}
+        Id={selectedId}
       />
     </div>
   );
