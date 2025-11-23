@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { FaEdit, FaTrash, FaRegCircle } from "react-icons/fa";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { blogsData } from "@/data/json/blog_categories";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import Pagination from "@/components/shared/Pagination";
 import { FadeLoader } from "react-spinners";
-import toast from "react-hot-toast";
 import BlogDelete from "./BlogDelete";
 
 const AllBlogs = ({ blogStatus }) => {
@@ -36,16 +34,14 @@ const AllBlogs = ({ blogStatus }) => {
       );
       if (response.ok) {
         const result = await response.json();
-        console.log("all blog", result);
-        const blogData = result?.data.map((item) => item.status === blogStatus);
-        if (blogStatus === "Active") {
-          setAllData(blogData);
-        } else if (blogStatus === "Inactive") {
-          setAllData(blogData);
-        } else {
-          setAllData(result?.data);
+
+        let blogData = result?.data || [];
+
+        if (blogStatus === "Active" || blogStatus === "Inactive") {
+          blogData = blogData.filter((item) => item.status === blogStatus);
         }
 
+        setAllData(blogData);
         setTotalRecords(result?.numberOfRecords || 0);
         setLoading(false);
       } else {

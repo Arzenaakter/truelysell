@@ -48,10 +48,7 @@ const AllBlogsPage = () => {
       <div className="mt-4">
         <div className="mt-4">
           {activeTabObj && (
-            <AllBlogs
-              key={activeTabObj.name}
-              blogStatus={activeTabObj.name === "All" ?? activeTabObj.name}
-            />
+            <AllBlogs key={activeTabObj.name} blogStatus={activeTabObj.name} />
           )}
         </div>
       </div>
