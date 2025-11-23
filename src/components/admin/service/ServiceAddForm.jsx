@@ -647,12 +647,9 @@ const ServiceAddForm = ({ isEditMode, id }) => {
             >
               Description
             </label>
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <Editor value={field.value} onChange={field.onChange} />
-              )}
+            <Editor
+              value={watch("description")}
+              onChange={(content) => setValue("description", content)}
             />
 
             {errors.description && (

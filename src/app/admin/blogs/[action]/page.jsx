@@ -396,12 +396,10 @@ const UpdateBlogPage = ({ params, searchParams }) => {
             >
               Content
             </label>
-            <Controller
-              name="Content"
-              control={control}
-              render={({ field }) => (
-                <Editor value={field.value} onChange={field.onChange} />
-              )}
+
+            <Editor
+              value={watch("Content")}
+              onChange={(content) => setValue("Content", content)}
             />
 
             {errors.Content && (
