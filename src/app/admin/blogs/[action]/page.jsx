@@ -3,7 +3,7 @@ import Editor from "@/components/shared/Editor";
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { use, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaUpload } from "react-icons/fa";
 
@@ -32,18 +32,18 @@ const UpdateBlogPage = ({ params, searchParams }) => {
     },
   });
 
-  const nameValue = watch("name");
+  const nameValue = watch("Title");
 
   useEffect(() => {
-    if (nameValue && !isEditMode) {
+    if (nameValue && !isEdit) {
       const generatedSlug = nameValue
         .toLowerCase()
         .trim()
         .replace(/[^a-z0-9\s-]/g, "")
         .replace(/\s+/g, "-");
-      setValue("slug", generatedSlug);
+      setValue("Slug", generatedSlug);
     }
-  }, [nameValue, setValue, isEditMode]);
+  }, [nameValue, setValue, isEdit]);
 
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
@@ -99,44 +99,39 @@ const UpdateBlogPage = ({ params, searchParams }) => {
           <div className="grid lg:grid-cols-2 gap-6 mb-6">
             {/* title */}
             <div>
-              <label
-                htmlFor="serviceTitle"
-                className="block text-sm  text-gray-800"
-              >
+              <label htmlFor="Title" className="block text-sm  text-gray-800">
                 Title
               </label>
               <input
-                id="serviceTitle"
-                {...register("serviceTitle", {
-                  required: "Service title is required",
+                id="Title"
+                {...register("Title", {
+                  required: isEdit ? false : "Title is required",
                 })}
                 className={`mt-1 block text-gray-800 w-full rounded-md border focus:outline-none ${
-                  errors.serviceTitle ? "border-red-500" : "border-gray-300"
+                  errors.Title ? "border-red-500" : "border-gray-300"
                 } px-4 py-2 `}
               />
-              {errors.serviceTitle && (
+              {errors.Title && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.serviceTitle.message}
+                  {errors.Title.message}
                 </p>
               )}
             </div>
             {/* slug  */}
             <div>
-              <label htmlFor="slug" className="block text-sm  text-gray-800">
+              <label htmlFor="Slug" className="block text-sm  text-gray-800">
                 Slug
               </label>
               <input
-                id="slug"
-                {...register("slug", {
-                  required: "slugis required",
-                })}
+                id="Slug"
+                {...register("Slug")}
                 className={`mt-1 block text-gray-800 w-full rounded-md border focus:outline-none ${
-                  errors.slug ? "border-red-500" : "border-gray-300"
+                  errors.Slug ? "border-red-500" : "border-gray-300"
                 } px-4 py-2 `}
               />
-              {errors.slug && (
+              {errors.Slug && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.slug.message}
+                  {errors.Slug.message}
                 </p>
               )}
             </div>
