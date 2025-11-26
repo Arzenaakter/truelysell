@@ -1,10 +1,10 @@
 import { IoIosArrowForward } from "react-icons/io";
 
-const HeadingSection = () => {
+const HeadingSection = ({ PageName }) => {
   return (
     <div className="py-12 bg-slate-50/80  relative">
       <div
-        className="absolute -right-28 -top-14 w-40 h-40 rounded-full opacity-60 blur-2xl z-0"
+        className="absolute right-10 -top-14 w-40 h-40 rounded-full opacity-60 blur-2xl z-0"
         style={{ background: "radial-gradient(circle, #d1b3ff, #e0ccff)" }}
       />
       <div
@@ -19,11 +19,11 @@ const HeadingSection = () => {
         className="absolute left-40 bottom-2 w-80 h-12 rounded-full opacity-60 blur-2xl z-0"
         style={{ background: "radial-gradient(circle, #d1b3ff, #e0ccff)" }}
       />
-      <h2 className="text-center mb-2">About Us</h2>
+      <h1 className="text-center mb-2">{PageName}</h1>
       <div className="flex items-center justify-center gap-2 ">
         <span className="text-gray-500">Home</span>
         <IoIosArrowForward />
-        <span className="text-gray-700">About us</span>
+        <span className="text-gray-700">{PageName}</span>
       </div>
     </div>
   );

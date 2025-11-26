@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaDownload } from "react-icons/fa";
-import toast from "react-hot-toast";
+import Link from "next/link";
 
 // =================== SAMPLE DATA ======================
 const initialData = [
@@ -47,66 +46,6 @@ const initialData = [
 const VerificationRequestsPage = () => {
   const [allData, setAllData] = useState(initialData);
 
-  // =================== HANDLE DOWNLOAD ======================
-  const handleDownload = (fileUrl) => {
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    link.download = fileUrl.split("/").pop();
-    link.click();
-  };
-
-  // =================== HANDLE STATUS UPDATE ======================
-  const handleStatusChange = async (id, newStatus) => {
-    const updated = allData.map((item) =>
-      item.id === id ? { ...item, status: newStatus } : item
-    );
-    setAllData(updated);
-
-    // ====== API CALL (EXAMPLE) ======
-    try {
-      const res = await fetch(`/api/verify/update-status/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      if (!res.ok) throw new Error("Failed to update");
-
-      toast.success(`Status updated to ${newStatus}`);
-    } catch (error) {
-      toast.error("Error updating status");
-    }
-  };
-
-  // =================== HANDLE REJECT ======================
-  const handleReject = async (id) => {
-    const reason = prompt("Enter rejection reason:");
-
-    if (!reason) return toast.error("Reason is required");
-
-    const updated = allData.map((item) =>
-      item.id === id
-        ? { ...item, status: "Rejected", rejectionReason: reason }
-        : item
-    );
-    setAllData(updated);
-
-    // ====== API CALL (EXAMPLE) ======
-    try {
-      const res = await fetch(`/api/verify/reject/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reason }),
-      });
-
-      if (!res.ok) throw new Error("Rejected failed");
-
-      toast.success("Document rejected");
-    } catch (error) {
-      toast.error("Error rejecting");
-    }
-  };
-
   return (
     <div>
       <div className="flex items-center justify-between mb-10">
@@ -120,11 +59,7 @@ const VerificationRequestsPage = () => {
             <tr>
               <th className="py-5 px-3">#</th>
               <th className="py-5 px-3">Provider Name</th>
-              <th className="py-5 px-3">Document Type</th>
-              <th className="py-5 px-3">Document Name</th>
-              <th className="py-5 px-3">Download</th>
-              <th className="py-5 px-3">Rejection reason</th>
-              <th className="py-5 px-3">Status</th>
+              <th className="py-5 px-3">View Request</th>
             </tr>
           </thead>
 
@@ -134,59 +69,15 @@ const VerificationRequestsPage = () => {
                 key={index}
                 className="border-t border-gray-200/80 hover:bg-gray-100 transition"
               >
-                <td className="py-4 px-3">{item.id}</td>
-
+                <td className="py-4 px-3">{index + 1}</td>
                 <td className="py-4 px-3">{item.userName}</td>
-
-                <td className="py-4 px-3">{item.documentType}</td>
-
-                <td className="py-4 px-3 underline text-blue-600 cursor-pointer">
-                  {item.documentName}
-                </td>
-
                 <td className="py-4 px-3">
-                  <button
-                    onClick={() => handleDownload(item.downloadUrl)}
-                    className="bg-indigo-600 hover:bg-indigo-700 p-2 rounded text-white"
+                  <Link
+                    href={`/admin/verification-requests/all-request?id=${item.id}`}
+                    className="text-blue-600 underline"
                   >
-                    <FaDownload />
-                  </button>
-                </td>
-
-                <td className="py-4 px-3">{item.rejectionReason || "--"}</td>
-
-                <td className="py-4 px-3">
-                  {/* VERIFIED */}
-                  {item.status === "Verified" && (
-                    <span className="bg-green-500 text-white px-3 py-1 rounded">
-                      Verified
-                    </span>
-                  )}
-
-                  {/* REJECTED */}
-                  {item.status === "Rejected" && (
-                    <span className="bg-red-500 text-white px-3 py-1 rounded">
-                      Rejected
-                    </span>
-                  )}
-
-                  {/* PENDING */}
-                  {item.status === "Pending" && (
-                    <select
-                      onChange={(e) => {
-                        if (e.target.value === "Rejected") {
-                          handleReject(item.id);
-                        } else {
-                          handleStatusChange(item.id, e.target.value);
-                        }
-                      }}
-                      className="border px-2 py-1 rounded"
-                    >
-                      <option>Select Status</option>
-                      <option value="Verified">Verify</option>
-                      <option value="Rejected">Reject</option>
-                    </select>
-                  )}
+                    View Request
+                  </Link>
                 </td>
               </tr>
             ))}

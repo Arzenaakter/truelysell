@@ -10,7 +10,7 @@ import React from "react";
 const AboutUsPage = () => {
   return (
     <div>
-      <HeadingSection />
+      <HeadingSection PageName="About Us" />
       <AboutBestSolution />
       <WhyChooseUs />
       <AboutHowItWorks />
