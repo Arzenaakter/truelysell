@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState } from "react";
 // 1. Import icons from 'react-icons' (Ant Design set)
@@ -52,11 +52,13 @@ const Faq = () => {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-4 md:p-6 mt-8">
-        <h4 className="mt-8 text-center">Frequently Asked Questions</h4>
-      <div className="bg-white rounded-lg">
+    <div className="bg-white container mx-auto p-6 lg:p-10 text-gray-500 text-sm">
+      <div className="lg:px-20">
         {faqData.map((item, index) => (
-          <div key={index} className="border-b border-gray-200 last:border-b-0">
+          <div
+            key={index}
+            className="border-b border-gray-200  last:border-b-0"
+          >
             <button
               onClick={() => toggleFaq(index)}
               className="flex justify-between items-center w-full py-5 px-2 md:px-4 text-left focus:outline-none"
@@ -90,10 +92,16 @@ const Faq = () => {
           </div>
         ))}
       </div>
-      <h5 className="text-pink-500 mt-4 text-center"> Still have a questions?</h5>
-      <p className="">  <br />
-
-If you cannot find answer to your question in our FAQ, you can always contact us. We wil answer to you shortly!</p>
+      <div className="lg:my-20 my-10">
+        <h5 className="text-pink-500 mb-4 text-center">
+          Still have a questions?
+        </h5>
+        <p className="text-center">
+          If you cannot find answer to your question in our FAQ, you can always{" "}
+          <br />
+          contact us. We wil answer to you shortly!
+        </p>
+      </div>
     </div>
   );
 };

@@ -58,6 +58,12 @@ export default function Header() {
               <DropdownLink href="/pages/how-it-works">
                 How it works
               </DropdownLink>
+              <DropdownLink href="/pages/privacy-policy">
+                Privacy Policy
+              </DropdownLink>
+              <DropdownLink href="/pages/terms-conditions">
+                Terms & Conditions
+              </DropdownLink>
             </Dropdown>
 
             <NavLink
@@ -81,7 +87,7 @@ export default function Header() {
               <button
                 onClick={() => logout()}
                 className="flex items-center gap-1 px-4 py-2 rounded text-white font-medium text-sm 
-                 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-blue)] 
+                 bg-linear-to-r from-(--primary) to-(--primary-blue)
                  hover:opacity-90 transition-all duration-200"
               >
                 Sign out
@@ -107,7 +113,7 @@ export default function Header() {
                     setIsRegistrationOpen(true);
                   }}
                   className="flex items-center gap-1 px-4 py-2 rounded text-white font-medium text-sm 
-                  bg-gradient-to-r from-[var(--primary)] to-[var(--primary-blue)] 
+                  bg-linear-to-r from-(--primary) to-(--primary-blue) 
                   hover:opacity-90 transition-all duration-200"
                 >
                   <MdLock size={15} />
@@ -132,9 +138,9 @@ export default function Header() {
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMenuOpen ? (
-              <HiX className="w-10 h-10 text-[var(--primary)] pe-4 lg:pe-0" />
+              <HiX className="w-10 h-10 text-(--primary) pe-4 lg:pe-0" />
             ) : (
-              <HiMenu className="w-10 h-10 text-[var(--primary)] pe-4 lg:pe-0" />
+              <HiMenu className="w-10 h-10 text-(--primary) pe-4 lg:pe-0" />
             )}
           </button>
         </div>
@@ -165,7 +171,7 @@ export default function Header() {
                   <button
                     onClick={() => logout()}
                     className="flex items-center gap-1 px-4 py-2 rounded text-white font-medium text-sm 
-                 bg-gradient-to-r from-[var(--primary)] to-[var(--primary-blue)] 
+                 bg-linear-to-r from-(--primary) to-(--primary-blue) 
                  hover:opacity-90 transition-all duration-200"
                   >
                     Sign out
@@ -193,7 +199,7 @@ export default function Header() {
                         setIsRegistrationOpen(true);
                       }}
                       className="flex items-center gap-1 px-4 py-2 rounded text-white font-medium text-sm 
-                  bg-gradient-to-r from-[var(--primary)] to-[var(--primary-blue)] 
+                  bg-linear-to-r from-(--primary) to-(--primary-blue) 
                   hover:opacity-90 transition-all duration-200"
                     >
                       <MdLock size={15} />
@@ -225,7 +231,7 @@ function NavLink({ href, children }) {
   return (
     <Link
       href={href}
-      className="px-1 py-2 text-gray-800 hover:text-[var(--primary-hover)] font-medium transition-colors relative group"
+      className="px-1 py-2 text-gray-800 hover:text-(--primary-hover) font-medium transition-colors relative group"
     >
       {children}
     </Link>
@@ -235,7 +241,7 @@ function NavLink({ href, children }) {
 function Dropdown({ title, children }) {
   return (
     <div className="relative group">
-      <button className="px-1 py-2 text-gray-800 hover:text-[var(--primary-hover)] font-medium flex items-center">
+      <button className="px-1 py-2 text-gray-800 hover:text-(--primary-hover) font-medium flex items-center">
         {title}
         <HiChevronDown className="w-5 h-5 ml-1" />
       </button>
@@ -250,7 +256,7 @@ function DropdownLink({ href, children }) {
   return (
     <Link
       href={href}
-      className="block font-medium px-4 py-1 text-gray-700 hover:text-[var(--primary-hover)] transition-colors"
+      className="block font-medium px-4 py-1 text-gray-700 hover:text-(--primary-hover) transition-colors"
     >
       {children}
     </Link>

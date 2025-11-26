@@ -1,64 +1,91 @@
 import React from "react";
-import { FaCircle } from 'react-icons/fa';
+import { FaCircle } from "react-icons/fa";
 const PrivecyPolicy = () => {
   return (
-<div className="bg-gray-100 text-gray-900">
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold text-gray-800">Privacy Policy</h1>
-        </div>
+    <div className="bg-white container mx-auto p-6 lg:p-10 text-gray-500 text-sm ">
+      <p className="text-sm leading-relaxed mb-6">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.
+      </p>
 
-        <div className="bg-white p-8 rounded-lg shadow-lg">
-          <p className="text-lg leading-relaxed mb-6">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-            deserunt mollit anim id est laborum.
-          </p>
+      <p className="text-sm leading-relaxed mb-6">
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+        explicabo. Nemo enim ipsum voluptatem quia voluptas sit aspernatur aut
+        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+        voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum
+        quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam
+        eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
+        voluptatem.
+      </p>
 
-          <p className="text-lg leading-relaxed mb-6">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-            totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            Nemo enim ipsum voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
-            ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-            adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-          </p>
+      <div className="space-y-4">
+        <ul className="list-inside space-y-2 text-sm">
+          <li className="flex items-start">
+            <FaCircle className="text-pink-500 mr-2" />
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui
+            blanditiis praesentium voluptatum deleniti atque corrupti quos
+            dolores et
+          </li>
+          <li className="flex items-start">
+            <FaCircle className="text-pink-500 mr-2" />
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium,
+          </li>
+          <li className="flex items-start">
+            <FaCircle className="text-pink-500 mr-2" />
+            Nemo enim ipsum voluptatem quia voluptas sit aspernatur aut odit aut
+            fugit, sed quia consequuntur magni dolores eos qui ratione
+            voluptatem sequi nesciunt.
+          </li>
+        </ul>
 
-          <div className="space-y-4">
-            <ul className="list-inside space-y-2">
-              <li className="flex items-start">
-                <FaCircle className="text-pink-500 mr-2" />
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et
-              </li>
-              <li className="flex items-start">
-                <FaCircle className="text-pink-500 mr-2" />
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-              </li>
-              <li className="flex items-start">
-                <FaCircle className="text-pink-500 mr-2" />
-                Nemo enim ipsum voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-              </li>
-            </ul>
-
-            <ul className="list-inside space-y-2">
-              <li className="flex items-start">
-                <FaCircle className="text-pink-500 mr-2" />
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et
-              </li>
-              <li className="flex items-start">
-                <FaCircle className="text-pink-500 mr-2" />
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-              </li>
-              <li className="flex items-start">
-                <FaCircle className="text-pink-500 mr-2" />
-                Nemo enim ipsum voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-              </li>
-            </ul>
-          </div>
-        </div>
+        <ul className="list-inside space-y-2">
+          <li className="flex items-start">
+            <FaCircle className="text-pink-500 mr-2" />
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui
+            blanditiis praesentium voluptatum deleniti atque corrupti quos
+            dolores et
+          </li>
+          <li className="flex items-start">
+            <FaCircle className="text-pink-500 mr-2" />
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+            accusantium doloremque laudantium,
+          </li>
+          <li className="flex items-start">
+            <FaCircle className="text-pink-500 mr-2" />
+            Nemo enim ipsum voluptatem quia voluptas sit aspernatur aut odit aut
+            fugit, sed quia consequuntur magni dolores eos qui ratione
+            voluptatem sequi nesciunt.
+          </li>
+        </ul>
       </div>
+      <p className="text-sm leading-relaxed mb-6 mt-10">
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
+        voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum
+        quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam
+        eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
+        voluptatem.
+      </p>
+      <p className="text-sm leading-relaxed mb-6">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.
+      </p>
     </div>
   );
 };
