@@ -1,17 +1,16 @@
-import React from 'react';
+import React from "react";
+import contatImg from "@/assets/img/bg/bg-contact.jpg";
 import Image from "next/image";
 const ContactFrom = () => {
-    return (
-         <section className="py-16 bg-white">
-      <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+  return (
+    <section className="py-16 bg-white">
+      <div className="container mx-auto px-6 lg:px-10 flex flex-col lg:flex-row gap-10 items-center">
         {/* Left Image */}
         <div className="w-full">
           <Image
-            src="/cleaner.jpg" // place your image in public/cleaner.jpg
+            src={contatImg}
             alt="Cleaning Service"
-            width={600}
-            height={500}
-            className="rounded-lg shadow-lg object-cover"
+            className="rounded-lg object-cover"
           />
         </div>
 
@@ -25,25 +24,23 @@ const ContactFrom = () => {
             <input
               type="text"
               placeholder="Your Name"
-              className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none placeholder-gray-400 plaxeholder:text-xs"
             />
 
             <input
               type="email"
               placeholder="Your Email Address"
-              className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none placeholder-gray-400 plaxeholder:text-xs"
             />
 
             <input
               type="text"
               placeholder="Your Phone Number"
-              className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none placeholder-gray-400 plaxeholder:text-xs"
             />
 
-            <select
-              className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
-            >
-              <option>Select Services</option>
+            <select className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none placeholder-gray-400 plaxeholder:text-xs">
+              <option className="text-gray-500">Select Services</option>
               <option>Home Cleaning</option>
               <option>Office Cleaning</option>
               <option>Plumbing</option>
@@ -52,21 +49,21 @@ const ContactFrom = () => {
 
             <textarea
               placeholder="Type Message"
-              rows={4}
-              className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+              rows={2}
+              className="w-full px-4 py-2 border border-gray-200 rounded-md focus:outline-none placeholder-gray-400 plaxeholder:text-xs"
             ></textarea>
 
             <button
               type="submit"
-              className="px-6 py-3 bg-gray-900 text-white font-medium rounded-md shadow hover:bg-gray-800 transition inline-flex items-center gap-2"
+              className="px-6 py-2 bg-(--dark) text-white font-medium rounded-md shadow hover:bg-gray-800 transition inline-flex items-center gap-2"
             >
-              Send Message <span className="text-lg">↗</span>
+              Send Message <span className="text-xs">↗</span>
             </button>
           </form>
         </div>
       </div>
     </section>
-    );
+  );
 };
 
 export default ContactFrom;
