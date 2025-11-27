@@ -10,6 +10,7 @@ import LoginFormModal from "../auth/LoginFormModal";
 import RegistrationFormModal from "../auth/RegistrationFormModal";
 import { MdLock } from "react-icons/md";
 import { useAppContext } from "@/context/AppContext";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,8 +18,15 @@ export default function Header() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const { userRole, token, logout } = useAppContext();
+  const pathname = usePathname();
 
-  // ✅ Scroll listener only once
+  const isChildActive = (path) => pathname === path;
+  const isActive = (path) => {
+    if (path === "/") return pathname === "/";
+
+    return pathname.startsWith(path);
+  };
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
@@ -42,26 +50,76 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex space-x-1">
-            <Dropdown title="Home">
-              <DropdownLink href="/">Sub1</DropdownLink>
-              <DropdownLink href="/">Sub2</DropdownLink>
+            <NavLink href="/" active={isActive("/")}>
+              Home
+            </NavLink>
+            <Dropdown title="Services" active={isActive("/services")}>
+              <DropdownLink
+                href="/services"
+                active={isChildActive("/services")}
+              >
+                Service Grid
+              </DropdownLink>
+              <DropdownLink
+                href="/services/categories"
+                active={isChildActive("/services/categories")}
+              >
+                Categories
+              </DropdownLink>
+              <DropdownLink
+                href="/services/search"
+                active={isChildActive("/services/search")}
+              >
+                Search
+              </DropdownLink>
+              <DropdownLink
+                href="/services/providers"
+                active={isChildActive("/services/providers")}
+              >
+                Providers
+              </DropdownLink>
             </Dropdown>
-            <Dropdown title="Services">
-              <DropdownLink href="/">Sub1</DropdownLink>
-              <DropdownLink href="/">Sub2</DropdownLink>
-            </Dropdown>
-            <Dropdown title="Pages">
-              <DropdownLink href="/pages/about">About</DropdownLink>
-              <DropdownLink href="/pages/blogs">Blog</DropdownLink>
-              <DropdownLink href="/pages/contact-us">Contact Us</DropdownLink>
-              <DropdownLink href="/pages/faq">FAQ</DropdownLink>
-              <DropdownLink href="/pages/how-it-works">
+            <Dropdown title="Pages" active={isActive("/pages")}>
+              <DropdownLink
+                href="/pages/about"
+                active={isChildActive("/pages/about")}
+              >
+                About
+              </DropdownLink>
+              <DropdownLink
+                href="/pages/blogs"
+                active={isChildActive("/pages/blogs")}
+              >
+                Blog
+              </DropdownLink>
+              <DropdownLink
+                href="/pages/contact-us"
+                active={isChildActive("/pages/contact-us")}
+              >
+                Contact Us
+              </DropdownLink>
+              <DropdownLink
+                href="/pages/faq"
+                active={isChildActive("/pages/faq")}
+              >
+                FAQ
+              </DropdownLink>
+              <DropdownLink
+                href="/pages/how-it-works"
+                active={isChildActive("/pages/how-it-works")}
+              >
                 How it works
               </DropdownLink>
-              <DropdownLink href="/pages/privacy-policy">
+              <DropdownLink
+                href="/pages/privacy-policy"
+                active={isChildActive("/pages/privacy-policy")}
+              >
                 Privacy Policy
               </DropdownLink>
-              <DropdownLink href="/pages/terms-conditions">
+              <DropdownLink
+                href="/pages/terms-conditions"
+                active={isChildActive("/pages/terms-conditionsy")}
+              >
                 Terms & Conditions
               </DropdownLink>
             </Dropdown>
@@ -149,9 +207,15 @@ export default function Header() {
         {isMenuOpen && (
           <div className="xl:hidden mt-4 py-4 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-gray-100 animate-fadeIn">
             <nav className="flex flex-col space-y-2">
-              <MobileNavLink href="/">Home</MobileNavLink>
-              <MobileNavLink href="/">Services</MobileNavLink>
-              <MobileNavLink href="/">Pages</MobileNavLink>
+              <MobileNavLink href="/" active={isActive("/")}>
+                Home
+              </MobileNavLink>
+              <MobileNavLink href="/services" active={isActive("/services")}>
+                Services
+              </MobileNavLink>
+              <MobileNavLink href="/pages" active={isActive("/pages")}>
+                Pages
+              </MobileNavLink>
               <MobileNavLink
                 href={
                   userRole === "Admin"
@@ -227,21 +291,34 @@ export default function Header() {
 
 /* ---------- Helper Components ---------- */
 
-function NavLink({ href, children }) {
+function NavLink({ href, children, active }) {
   return (
     <Link
       href={href}
-      className="px-1 py-2 text-gray-800 hover:text-(--primary-hover) font-medium transition-colors relative group"
+      className={`px-1 py-2 font-medium transition-colors relative group 
+        ${
+          active
+            ? "text-(--primary)"
+            : "text-gray-800 hover:text-(--primary-hover)"
+        }
+      `}
     >
       {children}
     </Link>
   );
 }
 
-function Dropdown({ title, children }) {
+function Dropdown({ title, children, active }) {
   return (
     <div className="relative group">
-      <button className="px-1 py-2 text-gray-800 hover:text-(--primary-hover) font-medium flex items-center">
+      <button
+        className={`px-1 py-2 flex items-center 
+        ${
+          active
+            ? "text-(--primary)"
+            : "text-gray-800 hover:text-(--primary-hover)"
+        }`}
+      >
         {title}
         <HiChevronDown className="w-5 h-5 ml-1" />
       </button>
@@ -252,24 +329,30 @@ function Dropdown({ title, children }) {
   );
 }
 
-function DropdownLink({ href, children }) {
+function DropdownLink({ href, children, active }) {
   return (
     <Link
       href={href}
-      className="block font-medium px-4 py-1 text-gray-700 hover:text-(--primary-hover) transition-colors"
+      // className="block text-sm px-4 py-1 text-gray-700 hover:text-(--primary-hover) transition-colors"
+      className={`transition-colors block text-sm px-4 py-1
+        ${
+          active
+            ? "text-(--primary)"
+            : "text-gray-800 hover:text-(--primary-hover)"
+        }`}
     >
       {children}
     </Link>
   );
 }
 
-function MobileNavLink({ href, children, isHighlighted = false }) {
+function MobileNavLink({ href, children, isHighlighted = false, active }) {
   return (
     <Link
       href={href}
-      className={`px-4 py-2.5 block transition-all duration-200  ${
-        isHighlighted ? "" : ""
-      }`}
+      className={`px-4 py-2.5 block transition-all duration-200 
+        ${active ? "text-(--primary)" : ""}
+      `}
     >
       {children}
     </Link>

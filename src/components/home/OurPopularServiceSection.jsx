@@ -27,14 +27,14 @@ const OurPopularServiceSection = () => {
       <div className="w-full  ">
         {/* Tabs Header */}
         <div className="flex flex-wrap gap-3 mb-8 justify-center">
-          {tabs.map((tab) => (
+          {tabs.map((tab, index) => (
             <button
-              key={tab.name}
+              key={index}
               onClick={() => setActiveTab(tab.name)}
               className={`px-4 py-1.5 rounded font-medium transition-all
               ${
                 activeTab === tab.name
-                  ? "bg-gradient-to-r from-[var(--primary)] to-[var(--primary-blue)] text-white"
+                  ? "bg-linear-to-r from-(--primary) to-(--primary-blue) text-white"
                   : "bg-white border border-gray-300 text-gray-700 hover:bg-gray-100"
               }`}
             >

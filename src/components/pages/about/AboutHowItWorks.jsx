@@ -30,10 +30,10 @@ const AboutHowItWorks = () => {
   return (
     <div className="bg-slate-50  pt-10 lg:pb-24 pb-5 relative">
       <div className="absolute top-5 left-0 ">
-        <Image src={bg13} />
+        <Image src={bg13} alt="" />
       </div>
       <div className="absolute bottom-5 right-0 ">
-        <Image src={dot} />
+        <Image src={dot} alt="" />
       </div>
       <div className="container mx-auto px-6 lg:px-36">
         <div className="text-center mb-10">

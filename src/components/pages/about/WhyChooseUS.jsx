@@ -117,9 +117,9 @@ const WhyChooseUs = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 items-center justify-center gap-4 my-10 lg:my-14 lg:px-10">
-        {arr.map((item) => (
+        {arr.map((item, index) => (
           <div
-            key={item.id}
+            key={index}
             className="flex items-center gap-4 mt-6 border-r border-dashed border-(--primary) last:border-0"
           >
             <Image src={item.icon} alt={item.subtitle} width={50} height={40} />

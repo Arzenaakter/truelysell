@@ -24,7 +24,7 @@ const BestServices = () => {
 
         {/* Right Image */}
         <div className="absolute right-0 bottom-0">
-          <Image src={serve} className="w-[400px]" />
+          <Image src={serve} className="w-[400px]" alt="" />
         </div>
       </div>
     </main>
