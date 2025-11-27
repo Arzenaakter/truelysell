@@ -1,96 +1,137 @@
-'use client'; // Add this at the top of your file
+"use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import myImage from "@/assets/img/about-bg.png"; // Replace with your image path
+import Image from "next/image";
+import { useState } from "react";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import aboutWhyChooseImg from "@/assets/img/bg/aboutChoose.jpg";
+import grpStarIcon from "@/assets/img/icons/group-stars.svg";
+import experienceIcon from "@/assets/img/icons/expereience.svg";
+import expertIcon from "@/assets/img/icons/expert-team.svg";
+import findIcon from "@/assets/img/icons/find-icon.svg";
+
+const arr = [
+  {
+    id: 1,
+    icon: grpStarIcon,
+    title: "2583+",
+    subtitle: "Satisfied Clients",
+  },
+  {
+    id: 2,
+    icon: expertIcon,
+    title: "2583+",
+    subtitle: "Expert Team",
+  },
+  {
+    id: 3,
+    icon: findIcon,
+    title: "2583+",
+    subtitle: "Project Completed",
+  },
+  {
+    id: 3,
+    icon: experienceIcon,
+    title: "2583+",
+    subtitle: "Years of experience",
+  },
+];
+const accordionData = [
+  {
+    title: "24/7 Supports",
+    content:
+      "Access round-the-clock support through our dedicated helpdesk, available 24/7 to address any issues or queries you may have. Whether it’s day or night, our team is here to ensure you receive timely assistance and seamless service.",
+  },
+  {
+    title: "Client’s reviews",
+    content:
+      "Access round-the-clock support through our dedicated helpdesk, available 24/7 to address any issues or queries you may have. Whether it’s day or night, our team is here to ensure you receive timely assistance and seamless service.",
+  },
+  {
+    title: "Professional Team",
+    content:
+      "Access round-the-clock support through our dedicated helpdesk, available 24/7 to address any issues or queries you may have. Whether it’s day or night, our team is here to ensure you receive timely assistance and seamless service.",
+  },
+  {
+    title: "Best Services",
+    content:
+      "Access round-the-clock support through our dedicated helpdesk, available 24/7 to address any issues or queries you may have. Whether it’s day or night, our team is here to ensure you receive timely assistance and seamless service.",
+  },
+];
 
 const WhyChooseUs = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(0);
 
-  const toggleAnswer = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  const toggleAccordion = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <div className="container mx-auto px-6 py-6">
+    <div className="container mx-auto p-6 lg:p-10">
       {/* Header Section */}
-      <h1 className="text-4xl font-semibold text-gray-900 mb-6 sm:mb-8 text-center">Why Choose Us</h1>
-      <p className="text-lg text-gray-700 mb-6 sm:mb-12 text-center">
-        Choose us for reliable, personalized service and exceptional results.
-      </p>
-      {/* Content Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Column with FAQ */}
-        <div className="space-y-6">
-          {/* FAQ Item 1 */}
-          <div className="border-l-4 border-yellow-500 pl-4">
-            <h3
-              className="text-xl font-semibold text-gray-800 cursor-pointer"
-              onClick={() => toggleAnswer(0)}
-            >
-              24/7 Supports
-            </h3>
-            {activeIndex === 0 && (
-              <p className="text-gray-600">
-                Access round-the-clock support through our dedicated helpdesk, available 24/7 to address any issues or queries you may have. Whether it's day or night, our team is here to ensure you receive timely assistance and seamless service.
-              </p>
-            )}
-          </div>
 
-          {/* FAQ Item 2 */}
-          <div className="border-l-4 border-yellow-500 pl-4">
-            <h3
-              className="text-xl font-semibold text-gray-800 cursor-pointer"
-              onClick={() => toggleAnswer(1)}
-            >
-              Client’s Reviews
-            </h3>
-            {activeIndex === 1 && (
-              <p className="text-gray-600">See what our clients are saying about our work and service.</p>
-            )}
-          </div>
+      <div className="grid lg:grid-cols-2 gap-10 items-start">
+        {/* Accordion Section */}
+        <div className="">
+          <div>
+            <h4 className=" text-gray-900 ">Why Choose Us</h4>
 
-          {/* FAQ Item 3 */}
-          <div className="border-l-4 border-yellow-500 pl-4">
-            <h3
-              className="text-xl font-semibold text-gray-800 cursor-pointer"
-              onClick={() => toggleAnswer(2)}
-            >
-              Professional Team
-            </h3>
-            {activeIndex === 2 && (
-              <p className="text-gray-600">Our team of experts is highly trained and ready to meet your needs.</p>
-            )}
+            <p className="mb-5 text-gray-600 text-sm ">
+              Choose us for reliable, personalized service and exceptional
+              results.
+            </p>
           </div>
+          <div className="space-y-6">
+            {accordionData.map((item, index) => (
+              <div key={index} className=" ">
+                <button
+                  onClick={() => toggleAccordion(index)}
+                  className="w-full flex justify-between items-center px-4 py-3 text-left text-gray-900 font-medium  bg-gray-100/90 rounded-md"
+                >
+                  {item.title}
+                  <span className="text-xl">
+                    {openIndex === index ? (
+                      <IoIosArrowDown />
+                    ) : (
+                      <IoIosArrowUp />
+                    )}
+                  </span>
+                </button>
 
-          {/* FAQ Item 4 */}
-          <div className="border-l-4 border-yellow-500 pl-4">
-            <h3
-              className="text-xl font-semibold text-gray-800 cursor-pointer"
-              onClick={() => toggleAnswer(3)}
-            >
-              Best Services
-            </h3>
-            {activeIndex === 3 && (
-              <p className="text-gray-600">We provide the best services in the industry, ensuring customer satisfaction.</p>
-            )}
+                {openIndex === index && (
+                  <div className="p-4 pt-0 text-gray-600 text-sm leading-relaxed mt-2">
+                    {item.content}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Right Column with Image */}
-        <div className="relative h-64 sm:h-80 md:h-auto">
+        {/* Image Section */}
+        <div>
           <Image
-            src={myImage}
-            alt="Construction workers"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-lg shadow-lg"
+            src={aboutWhyChooseImg}
+            alt="Why Choose Us"
+            className="rounded-lg shadow-lg w-full"
           />
         </div>
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 items-center justify-center gap-4 my-10 lg:my-14 lg:px-10">
+        {arr.map((item) => (
+          <div
+            key={item.id}
+            className="flex items-center gap-4 mt-6 border-r border-dashed border-(--primary) last:border-0"
+          >
+            <Image src={item.icon} alt={item.subtitle} width={50} height={40} />
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900">{item.title}</h3>
+              <p className="text-gray-600 ">{item.subtitle}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
 export default WhyChooseUs;
-

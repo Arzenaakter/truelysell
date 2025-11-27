@@ -290,43 +290,23 @@ const ProfileForm = ({ isEditMode, id }) => {
           )}
 
           <h5 className="mt-10">General Information</h5>
+          {/* Name */}
+          <div>
+            <label htmlFor="name" className="block text-sm  text-gray-800">
+              Name
+            </label>
+            <input
+              type="text"
+              {...register("Name", {
+                required: !isEditMode ? "Name is required" : false,
+              })}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none mt-1"
+            />
+            {errors.Name && (
+              <p className="text-red-500 text-xs mt-1">{errors.Name.message}</p>
+            )}
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            {/* Name */}
-            <div>
-              <label htmlFor="name" className="block text-sm  text-gray-800">
-                Name
-              </label>
-              <input
-                type="text"
-                {...register("Name", {
-                  required: !isEditMode ? "Name is required" : false,
-                })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none mt-1"
-              />
-              {errors.Name && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.Name.message}
-                </p>
-              )}
-            </div>
-            {/* User Name */}
-            <div>
-              <label htmlFor="name" className="block text-sm  text-gray-800">
-                User Name
-              </label>
-              <input
-                type="text"
-                {...register("Name", {
-                  required: !isEditMode ? "Name is required" : false,
-                })}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none mt-1"
-              />
-              {errors.Name && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.Name.message}
-                </p>
-              )}
-            </div>
             {/* Email */}
             <div>
               <label htmlFor="name" className="block text-sm  text-gray-800">
