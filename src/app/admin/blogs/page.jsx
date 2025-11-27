@@ -3,12 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
-import AllBlogs from "@/components/admin/blog/AllBlogs";
+import AllBlogs from "@/components/shared/AllBlogs";
 
 const tabs = [
-  { name: "All", component: <AllBlogs blogStatus="All" /> },
-  { name: "Active", component: <AllBlogs blogStatus="Active" /> },
-  { name: "Inactive", component: <AllBlogs blogStatus="Inactive" /> },
+  { name: "All", component: <AllBlogs blogStatus="All" blgFrom="Admin" /> },
+  {
+    name: "Active",
+    component: <AllBlogs blogStatus="Active" blgFrom="Admin" />,
+  },
+  {
+    name: "Inactive",
+    component: <AllBlogs blogStatus="Inactive" blgFrom="Admin" />,
+  },
 ];
 
 const AllBlogsPage = () => {

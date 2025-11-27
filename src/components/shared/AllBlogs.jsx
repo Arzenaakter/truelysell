@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { FaEdit, FaTrash, FaRegCircle } from "react-icons/fa";
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -5,9 +6,9 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
 import Pagination from "@/components/shared/Pagination";
 import { FadeLoader } from "react-spinners";
-import BlogDelete from "./BlogDelete";
+import BlogDelete from "../admin/blog/BlogDelete";
 
-const AllBlogs = ({ blogStatus }) => {
+const AllBlogs = ({ blogStatus, blgFrom }) => {
   const { loading, setLoading } = useAppContext();
 
   const [allData, setAllData] = useState([]);
@@ -19,10 +20,15 @@ const AllBlogs = ({ blogStatus }) => {
   const getAllBlogs = async (page = 1) => {
     try {
       setLoading(true);
+      const url = blgFrom
+        ? `${process.env.NEXT_PUBLIC_API_ADMIN_URL}blog/getall?PageNumber=${
+            page - 1
+          }&SearchText=&SortBy=Id&SortDirection=desc&PageSize=${pageSize}`
+        : `${process.env.NEXT_PUBLIC_API_ADMIN_URL}blog/getall?PageNumber=${
+            page - 1
+          }&SearchText=&SortBy=Id&SortDirection=desc&PageSize=${pageSize}`;
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_ADMIN_URL}blog/getall?PageNumber=${
-          page - 1
-        }&SearchText=&SortBy=Id&SortDirection=desc&PageSize=${pageSize}`,
+        url,
 
         {
           method: "GET",
@@ -114,31 +120,32 @@ const AllBlogs = ({ blogStatus }) => {
                     dangerouslySetInnerHTML={{ __html: blog.content }}
                   />
 
-                  {/* Actions */}
-                  <div className="mt-auto flex justify-between items-center text-gray-600 text-sm">
-                    <Link
-                      href={`/admin/blogs/edit?id=${blog?.id}`}
-                      className="flex items-center gap-1 hover:text-blue-500"
-                    >
-                      <FaEdit /> Edit
-                    </Link>
-                    <BlogDelete
-                      endpoint={`blog/delete/${blog?.id}`}
-                      type="blog"
-                      onComplete={(status) => {
-                        if (status) {
-                          setAllData((prev) =>
-                            prev.filter((b) => b.id !== blog.id)
-                          );
-                        } else {
-                        }
-                      }}
-                    />
+                  {blgFrom === "Admin" && (
+                    <div className="mt-auto flex justify-between items-center text-gray-600 text-sm">
+                      <Link
+                        href={`/admin/blogs/edit?id=${blog?.id}`}
+                        className="flex items-center gap-1 hover:text-blue-500"
+                      >
+                        <FaEdit /> Edit
+                      </Link>
+                      <BlogDelete
+                        endpoint={`blog/delete/${blog?.id}`}
+                        type="blog"
+                        onComplete={(status) => {
+                          if (status) {
+                            setAllData((prev) =>
+                              prev.filter((b) => b.id !== blog.id)
+                            );
+                          } else {
+                          }
+                        }}
+                      />
 
-                    <button className="flex items-center gap-1 hover:text-gray-800">
-                      <FaRegCircle /> {blog.status}
-                    </button>
-                  </div>
+                      <button className="flex items-center gap-1 hover:text-gray-800">
+                        <FaRegCircle /> {blog.status}
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

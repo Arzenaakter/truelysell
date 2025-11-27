@@ -52,7 +52,7 @@ export default function Header() {
             </Dropdown>
             <Dropdown title="Pages">
               <DropdownLink href="/pages/about">About</DropdownLink>
-              <DropdownLink href="/pages/blog">Blog</DropdownLink>
+              <DropdownLink href="/pages/blogs">Blog</DropdownLink>
               <DropdownLink href="/pages/contact-us">Contact Us</DropdownLink>
               <DropdownLink href="/pages/faq">FAQ</DropdownLink>
               <DropdownLink href="/pages/how-it-works">
