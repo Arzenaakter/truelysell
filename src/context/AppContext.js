@@ -17,6 +17,10 @@ export const AppProvider = ({ children }) => {
   const [userName, setUserName] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [token, setToken] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedId, setSelectedId] = useState(null);
 
   const router = useRouter();
 
@@ -66,6 +70,14 @@ export const AppProvider = ({ children }) => {
     toggleSidebar,
     login,
     logout,
+    selectedId,
+    setSelectedId,
+    currentPage,
+    setCurrentPage,
+    totalRecords,
+    setTotalRecords,
+    isModalOpen,
+    setIsModalOpen,
   };
 
   return (
