@@ -1,13 +1,11 @@
 "use client";
-
 import Loader from "@/components/shared/Loader";
 import { useAppContext } from "@/context/AppContext";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaPlus, FaStar } from "react-icons/fa";
-import { useUsers } from "./_hooks/useUsers";
+import { useUsers } from "@/hooks/useUsers";
 import AddUserModal from "./_components/AddUserModal";
 import UserTable from "./_components/UserTable";
+import NoFoundData from "@/components/shared/NoFoundData";
 
 const UsersPage = () => {
   const pageSize = 10;
@@ -28,6 +26,8 @@ const UsersPage = () => {
 
       {loading ? (
         <Loader />
+      ) : allData && allData.length < 0 ? (
+        <NoFoundData />
       ) : (
         <UserTable
           allData={allData}

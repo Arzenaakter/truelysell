@@ -2,7 +2,6 @@ import DeleteButton from "@/components/shared/DeleteButton";
 import NoFoundData from "@/components/shared/NoFoundData";
 import Pagination from "@/components/shared/Pagination";
 import { useAppContext } from "@/context/AppContext";
-import React from "react";
 import { FiEdit } from "react-icons/fi";
 
 const UserTable = ({ allData, setAllData, pageSize }) => {
@@ -13,7 +12,7 @@ const UserTable = ({ allData, setAllData, pageSize }) => {
     totalRecords,
     setIsModalOpen,
   } = useAppContext();
-  if (!allData || allData.length === 0) return <NoFoundData />;
+  //   if (!allData || allData.length === 0) return <NoFoundData />;
   return (
     <div className=" mb-10">
       <div className="overflow-x-auto mb-5">

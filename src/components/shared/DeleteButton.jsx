@@ -1,11 +1,11 @@
 "use client";
 
-import { useAppContext } from "@/context/AppContext";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 const DeleteButton = ({ endpoint, type, onComplete }) => {
-  const { loading, setLoading } = useAppContext();
+  const [loading, setLoading] = useState(false);
 
   const handleDelete = () => {
     toast.custom((t) => (
@@ -48,18 +48,21 @@ const DeleteButton = ({ endpoint, type, onComplete }) => {
         }
       );
 
-      if (res.ok) {
-        toast.success(`${type} deleted successfully`);
-        onComplete(true);
-      } else {
-        toast.error(`Failed to delete ${type}`);
+      const data = await res.json().catch(() => null);
+
+      if (data.error) {
+        toast.error(data?.error || `Failed to delete ${type}`);
         onComplete(false);
+        return;
       }
+
+      toast.success(`${type} deleted successfully`);
+      onComplete(true);
     } catch (error) {
       toast.error("Something went wrong");
       onComplete(false);
     } finally {
-      setLoading(false);
+      setDeleting(false);
     }
   };
 

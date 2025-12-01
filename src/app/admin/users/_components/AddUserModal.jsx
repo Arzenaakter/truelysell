@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
-import { useUsers } from "../_hooks/useUsers";
+import { useUsers } from "@/hooks/useUsers";
 
 const AddUserModal = ({ onSubmit }) => {
-  const { register, handleSubmit, setValue, reset } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       FirstName: "",
       LastName: "",
@@ -19,7 +19,7 @@ const AddUserModal = ({ onSubmit }) => {
     },
   });
 
-  const { selectedId, setIsModalOpen } = useAppContext();
+  const { selectedId, onClose } = useAppContext();
   const { roles, singleUser } = useUsers();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -48,11 +48,6 @@ const AddUserModal = ({ onSubmit }) => {
     }
   }, [singleUser, selectedId]);
 
-  const closeModal = () => {
-    reset();
-    setIsModalOpen(false);
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex justify-center bg-black/50 overflow-y-auto">
       <div className="bg-white w-full max-w-md max-h-min rounded-xl shadow-lg p-6 relative my-5 overflow-y-auto sidebar-scroll">
@@ -63,7 +58,7 @@ const AddUserModal = ({ onSubmit }) => {
           </h6>
           <button
             type="button"
-            onClick={closeModal}
+            onClick={onClose}
             className="text-gray-500 hover:text-gray-800"
           >
             ✕
@@ -162,7 +157,7 @@ const AddUserModal = ({ onSubmit }) => {
           <div className="flex justify-end gap-3 mt-4 text-sm">
             <button
               type="button"
-              onClick={closeModal}
+              onClick={onClose}
               className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md"
             >
               Cancel

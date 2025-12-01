@@ -1,4 +1,4 @@
-"use client"; // required for Next.js app router
+"use client";
 
 import { useRouter } from "next/navigation";
 import {
@@ -8,6 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useForm } from "react-hook-form";
 
 const AppContext = createContext();
 
@@ -21,6 +22,8 @@ export const AppProvider = ({ children }) => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedId, setSelectedId] = useState(null);
+
+  const { reset } = useForm();
 
   const router = useRouter();
 
@@ -60,6 +63,12 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem("user");
     router.push("/");
   }, []);
+
+  const onClose = () => {
+    reset();
+    setIsModalOpen(false);
+  };
+
   const valueItems = {
     loading,
     setLoading,
@@ -78,6 +87,7 @@ export const AppProvider = ({ children }) => {
     setTotalRecords,
     isModalOpen,
     setIsModalOpen,
+    onClose,
   };
 
   return (
