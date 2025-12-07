@@ -19,7 +19,7 @@ const CustomerWalletPage = () => {
           onClick={() => setIsModalOpen(true)}
           className="bg-(--dark) text-white px-4 py-2 rounded-md flex items-center gap-2"
         >
-          <FaPlus size={15} /> Add wallet
+          <FaPlus size={15} /> Add Wallet
         </button>
       </div>
       <WalletSummary />
