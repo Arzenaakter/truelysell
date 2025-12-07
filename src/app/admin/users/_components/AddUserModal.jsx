@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
-import { useUsers } from "@/hooks/useUsers";
+import { useUsers } from "@/hooks/admin/useUsers";
 
 const AddUserModal = ({ onSubmit }) => {
   const { register, handleSubmit, reset } = useForm({

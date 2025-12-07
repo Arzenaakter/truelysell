@@ -2,7 +2,7 @@
 import Loader from "@/components/shared/Loader";
 import { useAppContext } from "@/context/AppContext";
 import { FaPlus, FaStar } from "react-icons/fa";
-import { useUsers } from "@/hooks/useUsers";
+import { useUsers } from "@/hooks/admin/useUsers";
 import AddUserModal from "./_components/AddUserModal";
 import UserTable from "./_components/UserTable";
 import NoFoundData from "@/components/shared/NoFoundData";

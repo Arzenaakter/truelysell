@@ -12,7 +12,7 @@ const UserTable = ({ allData, setAllData, pageSize }) => {
     totalRecords,
     setIsModalOpen,
   } = useAppContext();
-  //   if (!allData || allData.length === 0) return <NoFoundData />;
+
   return (
     <div className=" mb-10">
       <div className="overflow-x-auto mb-5">

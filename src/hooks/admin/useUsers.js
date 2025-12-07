@@ -1,13 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { UserService } from "@/services/user.service";
 import toast from "react-hot-toast";
 import { useAppContext } from "@/context/AppContext";
+import { apiService } from "@/services/apiService";
+import { useForm } from "react-hook-form";
 
 export const useUsers = (pageSize = 10) => {
   const [allData, setAllData] = useState([]);
   const [roles, setRoles] = useState([]);
   const [singleUser, setSingleUser] = useState(null);
+  const { reset } = useForm({});
 
   const {
     setLoading,
@@ -18,21 +20,23 @@ export const useUsers = (pageSize = 10) => {
     setIsModalOpen,
   } = useAppContext();
 
-  // Fetch roles once
   useEffect(() => {
     (async () => {
       try {
-        const res = await UserService.getRoles();
+        const res = await apiService.get("dropdown/getroles");
         setRoles(res.data);
       } catch {}
     })();
   }, []);
 
-  // Fetch all users when page changes
   const fetchUsers = async (page = 1) => {
     setLoading(true);
     try {
-      const res = await UserService.getAll(page, pageSize);
+      const res = await apiService.get(
+        `users/getall?PageNumber=${
+          page - 1
+        }&SearchText=&SortBy=FirstName&SortDirection=asc&PageSize=${pageSize}`
+      );
       setAllData(res.data);
       setTotalRecords(res.numberOfRecords);
     } catch {
@@ -46,12 +50,11 @@ export const useUsers = (pageSize = 10) => {
     fetchUsers(currentPage);
   }, [currentPage]);
 
-  // Fetch single user automatically when modal opens for edit
   useEffect(() => {
     if (selectedId && isModalOpen) {
       (async () => {
         try {
-          const res = await UserService.getById(selectedId);
+          const res = await apiService.get(`users/getuserbyid/${selectedId}`);
           setSingleUser(res.data);
         } catch {}
       })();
@@ -60,7 +63,6 @@ export const useUsers = (pageSize = 10) => {
     }
   }, [selectedId, isModalOpen]);
 
-  // ADD / EDIT User
   const saveUser = async (data) => {
     const payload = {
       FirstName: data.FirstName,
@@ -79,17 +81,18 @@ export const useUsers = (pageSize = 10) => {
 
     try {
       if (selectedId) {
-        const res = await UserService.update(selectedId, payload);
+        const res = await apiService.put(`users/update/${selectedId}`, payload);
 
         if (res.message) {
           fetchUsers();
           setIsModalOpen(false);
           toast.success(res.message);
+          reset();
         } else {
           toast.error(res.error);
         }
       } else {
-        const res = await UserService.create(payload);
+        const res = await apiService.post("users/create", payload);
 
         if (res.message) {
           toast.success(res.message);
